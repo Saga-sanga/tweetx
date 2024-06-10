@@ -21,3 +21,8 @@ export const signupFormSchema = z
     message: "Passwords do not match",
     path: ["confirmPassword"],
   });
+
+export const loginFormSchema = z.object({
+  email: z.string({ required_error: "Please enter your email" }).email().trim(),
+  password: z.string({required_error: "Please enter your password"}).trim(),
+});
