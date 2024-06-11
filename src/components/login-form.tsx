@@ -17,16 +17,44 @@ import {
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { useState } from "react";
+import { signIn } from "next-auth/react";
+import { Icons } from "./icons";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 export function LoginForm() {
   const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const router = useRouter();
 
   const form = useForm<z.infer<typeof loginFormSchema>>({
     resolver: zodResolver(loginFormSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
   });
 
-  function onSubmit(values: z.infer<typeof loginFormSchema>) {
-    console.log({ values });
+  async function onSubmit(values: z.infer<typeof loginFormSchema>) {
+    setIsLoading(true);
+    // console.log({ values });
+    try {
+      const res = await signIn("credentials", { ...values, redirect: false });
+
+      if (res?.ok) {
+        router.push("/");
+      }
+
+      if (!res?.ok) {
+        toast.error("Error Logging in. Please try again!");
+      }
+      setIsLoading(false);
+    } catch (error) {
+      console.log(error);
+      setIsLoading(false);
+      toast("Error Logging in. Please try again!");
+    }
   }
 
   return (
@@ -79,7 +107,12 @@ export function LoginForm() {
           <Link href="#" className="text-sm text-foreground/60 font-medium">
             Forgot Password ?
           </Link>
-          <Button size="lg">Login</Button>
+          <Button size="lg" disabled={isLoading}>
+            {isLoading && (
+              <Icons.spinner className="h-4 w-4 mr-2 animate-spin" />
+            )}{" "}
+            Login
+          </Button>
         </div>
       </form>
     </Form>
