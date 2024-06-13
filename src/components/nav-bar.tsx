@@ -14,11 +14,13 @@ function NavLink({
   path: string;
 }) {
   const pathname = usePathname();
+  const isActive = pathname.split("/")[1] === path.slice(1);
+
   return (
     <Link
       className={cn(
         "font-medium text-lg text-muted-foreground/30",
-        pathname === path && "text-primary"
+        isActive && "text-primary"
       )}
       href={path}
     >
@@ -32,11 +34,15 @@ export function NavBar() {
     <div className="shadow-md w-full">
       <nav className="py-5 container flex justify-between items-center">
         <p className="text-primary font-medium text-3xl">TweetX</p>
-        <div className="space-x-10">
+        <div className="space-x-10 flex">
           <NavLink path="/">Feed</NavLink>
           <NavLink path="/users">Users</NavLink>
           <NavLink path="/profile">Profile</NavLink>
-          <Button onClick={() => signOut()}>Sign Out</Button>
+          <div>
+            <Button className="ml-12" onClick={() => signOut()}>
+              Sign Out
+            </Button>
+          </div>
         </div>
       </nav>
     </div>
