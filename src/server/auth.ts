@@ -1,9 +1,23 @@
-import { NextAuthOptions, User } from "next-auth";
+import { type DefaultSession, NextAuthOptions, User } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { db } from "./db";
 import { users } from "./db/schema";
 import { eq } from "drizzle-orm";
 import { compare } from "bcrypt";
+
+/**
+ * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
+ * object and keep type safety.
+ *
+ * @see https://next-auth.js.org/getting-started/typescript#module-augmentation
+ */
+// declare module "next-auth" {
+//   interface Session extends DefaultSession {
+//     user: {
+//       id: number;
+//     } & DefaultSession["user"];
+//   }
+// }
 
 export const authOptions: NextAuthOptions = {
   session: {
@@ -25,7 +39,7 @@ export const authOptions: NextAuthOptions = {
           .from(users)
           .where(eq(users.email, credentials?.email));
 
-        console.log({ user, credentials });
+        // console.log({ user, credentials });
 
         const isEqual = await compare(
           credentials?.password ?? "",
@@ -43,4 +57,25 @@ export const authOptions: NextAuthOptions = {
       },
     }),
   ],
+  callbacks: {
+    jwt: async ({ token, user }) => {
+      console.log({ token, user });
+      if (user) {
+        return {
+          ...token,
+          id: user.id,
+        };
+      }
+      return token;
+    },
+    session: async ({ session, token }) => {
+      return {
+        ...session,
+        user: {
+          ...session.user,
+          id: token.id,
+        },
+      };
+    },
+  },
 };
