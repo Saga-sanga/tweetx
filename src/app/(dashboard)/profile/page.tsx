@@ -1,3 +1,7 @@
 export default function Page() {
-  return <div>Profile</div>;
+  return (
+    <section className="border-t">
+    
+    </section>
+  );
 }
