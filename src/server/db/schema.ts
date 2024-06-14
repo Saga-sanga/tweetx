@@ -34,7 +34,10 @@ export const posts = sqliteTable("posts", {
     .notNull()
     .references(() => users.id, { onDelete: "cascade" }),
   content: text("content").notNull(),
-  createdAt: integer("createdAt", { mode: "timestamp" })
+  createdAt: text("createdAt")
     .notNull()
     .default(sql`CURRENT_TIMESTAMP`),
 });
+
+export type SelectPost = typeof posts.$inferSelect;
+export type SelectUser = typeof users.$inferSelect;

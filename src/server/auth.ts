@@ -11,13 +11,13 @@ import { compare } from "bcrypt";
  *
  * @see https://next-auth.js.org/getting-started/typescript#module-augmentation
  */
-// declare module "next-auth" {
-//   interface Session extends DefaultSession {
-//     user: {
-//       id: number;
-//     } & DefaultSession["user"];
-//   }
-// }
+declare module "next-auth" {
+  interface Session extends DefaultSession {
+    user: {
+      id: number;
+    } & DefaultSession["user"];
+  }
+}
 
 export const authOptions: NextAuthOptions = {
   session: {
@@ -59,7 +59,6 @@ export const authOptions: NextAuthOptions = {
   ],
   callbacks: {
     jwt: async ({ token, user }) => {
-      console.log({ token, user });
       if (user) {
         return {
           ...token,
