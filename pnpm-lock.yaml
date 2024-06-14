@@ -41,6 +41,9 @@ dependencies:
   drizzle-orm:
     specifier: ^0.31.2
     version: 0.31.2(@libsql/client@0.6.2)(@types/better-sqlite3@7.6.10)(@types/react@18.3.3)(better-sqlite3@11.0.0)(react@18.3.1)
+  javascript-time-ago:
+    specifier: ^2.5.10
+    version: 2.5.10
   next:
     specifier: 14.2.3
     version: 14.2.3(react-dom@18.3.1)(react@18.3.1)
@@ -3067,6 +3070,12 @@ packages:
     optionalDependencies:
       '@pkgjs/parseargs': 0.11.0
 
+  /javascript-time-ago@2.5.10:
+    resolution: {integrity: sha512-EUxp4BP74QH8xiYHyeSHopx1XhMMJ9qEX4rcBdFtpVWmKRdzpxbNzz2GSbuekZr5wt0rmLehuyp0PE34EAJT9g==}
+    dependencies:
+      relative-time-format: 1.1.6
+    dev: false
+
   /jiti@1.21.3:
     resolution: {integrity: sha512-uy2bNX5zQ+tESe+TiC7ilGRz8AtRGmnJH55NC5S0nSUjvvvM2hJHmefHErugGXN4pNv4Qx7vLsnNw9qJ9mtIsw==}
     hasBin: true
@@ -3895,6 +3904,10 @@ packages:
       es-errors: 1.3.0
       set-function-name: 2.0.2
     dev: true
+
+  /relative-time-format@1.1.6:
+    resolution: {integrity: sha512-aCv3juQw4hT1/P/OrVltKWLlp15eW1GRcwP1XdxHrPdZE9MtgqFpegjnTjLhi2m2WI9MT/hQQtE+tjEWG1hgkQ==}
+    dev: false
 
   /resolve-from@4.0.0:
     resolution: {integrity: sha512-pb/MYmXstAkysRFx8piNI1tGFNQIFA3vkE3Gq4EuA1dF6gHp/+vgZqsCGJapvy8N3Q+4o7FwvquPJcnZ7RYy4g==}

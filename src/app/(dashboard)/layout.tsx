@@ -1,5 +1,4 @@
 import { NavBar } from "@/components/nav-bar";
-import Link from "next/link";
 
 export default function DashboardLayout({
   children,

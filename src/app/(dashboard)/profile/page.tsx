@@ -17,7 +17,8 @@ export default async function Page() {
       },
     })
     .from(posts)
-    .leftJoin(users, eq(posts.author, session?.user.id!))
+    .leftJoin(users, eq(posts.author, users.id))
+    .where(eq(users.id, session?.user.id!))
     .orderBy(desc(posts.createdAt));
 
   return (

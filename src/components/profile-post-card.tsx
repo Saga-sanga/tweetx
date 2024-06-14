@@ -1,4 +1,9 @@
-import { SelectPost } from "@/server/db/schema";
+import TimeAgo from "javascript-time-ago";
+import en from "javascript-time-ago/locale/en";
+
+TimeAgo.addDefaultLocale(en);
+
+const timeAgo = new TimeAgo("en-US");
 
 type PostCardProps = {
   post: {
@@ -21,7 +26,9 @@ export function ProfilePostCard({ post }: PostCardProps) {
           <h2 className="pl-2 text-lg font-medium text-muted-foreground">
             {post.author?.name}
           </h2>
-          <span className="text-xs text-muted-foreground/60">10 mins ago</span>
+          <span className="text-xs text-muted-foreground/60">
+            {timeAgo.format(new Date(post.createdAt))}
+          </span>
         </div>
         <p className="text-sm text-muted-foreground/60">{post.content}</p>
       </div>
