@@ -1,13 +1,40 @@
 import { UserCard } from "@/components/user-card";
+import { authOptions } from "@/server/auth";
+import { db } from "@/server/db";
+import { follows, users } from "@/server/db/schema";
+import { asc, eq, sql } from "drizzle-orm";
+import { getServerSession } from "next-auth";
 
-export default function page() {
+export default async function Page() {
+  const session = await getServerSession(authOptions);
+  const result = await db
+    .select({
+      id: users.id,
+      name: users.name,
+      following: sql<number>`(SELECT COUNT(*) FROM follows WHERE follows.followerId = ${users.id})`,
+      isFollowing: sql<number>`EXISTS (SELECT 1 FROM follows WHERE follows.followerId = ${session
+        ?.user.id!} AND follows.followingId = ${users.id})`,
+    })
+    .from(follows)
+    .leftJoin(users, eq(follows.followerId, users.id))
+    .where(eq(follows.followingId, session?.user.id!))
+    .orderBy(asc(users.name));
+
   return (
     <section className="space-y-2">
-      <UserCard following={false} />
-      <UserCard following={false} />
-      <UserCard following={false} />
-      <UserCard following={false} />
-      <UserCard following={false} />
+      {result.length &&
+        result.map((user) => (
+          <UserCard
+            key={user.id}
+            currentUserId={session?.user.id!}
+            userData={{
+              id: user.id ?? 0,
+              name: user.name ?? "",
+              following: user.following,
+              isFollowing: user.isFollowing,
+            }}
+          />
+        ))}
     </section>
   );
 }
