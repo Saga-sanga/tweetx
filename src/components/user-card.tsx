@@ -39,7 +39,7 @@ export function UserCard({ userData, currentUserId }: UserCardProps) {
           Follow
         </Button>
       ) : (
-        <span className="font-medium px-6 text-muted-foreground text-md mb-0.5">
+        <span className="font-medium px-5 text-muted-foreground text-md mb-0.5">
           Following
         </span>
       )}
