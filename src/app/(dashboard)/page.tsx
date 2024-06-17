@@ -45,8 +45,6 @@ function PostCard({ post }: PostCardProps) {
 export default async function Page() {
   const session = await getServerSession(authOptions);
 
-  console.log({ session });
-
   const query1 = db
     .select({
       id: posts.id,
@@ -75,7 +73,7 @@ export default async function Page() {
   return (
     <main className="flex flex-col w-full max-w-xl mt-10 space-y-10">
       <CreatePostDialog />
-      {!res.length ? (
+      {res.length ? (
         res.map((post) => <PostCard key={post.id} post={post} />)
       ) : (
         <div className="text-center py-28 space-y-8 text-muted-foreground">

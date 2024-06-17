@@ -14,6 +14,7 @@ type UserCardProps = {
 };
 
 export function UserCard({ userData, currentUserId }: UserCardProps) {
+  const isSameUser = Number(currentUserId) === userData.id;
   const { mutate: server_followUser } = useMutation({ mutationFn: followUser });
   return (
     <article className="flex justify-between py-8 px-10 items-end">
@@ -33,7 +34,7 @@ export function UserCard({ userData, currentUserId }: UserCardProps) {
           onClick={() => server_followUser(userData.id)}
           size="lg"
           className="font-medium text-md px-8 mb-0.5"
-          disabled={currentUserId === userData.id}
+          disabled={isSameUser}
         >
           Follow
         </Button>
