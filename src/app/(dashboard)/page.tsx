@@ -45,6 +45,8 @@ function PostCard({ post }: PostCardProps) {
 export default async function Page() {
   const session = await getServerSession(authOptions);
 
+  console.log({ session });
+
   const query1 = db
     .select({
       id: posts.id,
