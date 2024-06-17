@@ -5,7 +5,12 @@ export const config = {
 };
 
 export function middleware(req: NextRequest) {
-  const session = req.cookies.get("next-auth.session-token");
+  let session;
+  if (process.env.NODE_ENV === "production") {
+    session = req.cookies.get("__Secure-next-auth.session-token");
+  } else {
+    session = req.cookies.get("next-auth.session-token");
+  }
 
   console.log({ session });
 
