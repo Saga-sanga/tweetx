@@ -69,7 +69,6 @@ export default async function Page() {
     .where(eq(follows.followerId, session?.user.id!));
 
   const res = await union(query1, query2).orderBy(desc(posts.createdAt));
-  console.log({ res });
 
   return (
     <main className="flex flex-col w-full max-w-xl mt-10 space-y-10">
