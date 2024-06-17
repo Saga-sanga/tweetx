@@ -22,7 +22,7 @@ export default async function Page() {
 
   return (
     <section className="space-y-2">
-      {result.length &&
+      {result.length ? (
         result.map((user) => (
           <UserCard
             key={user.id}
@@ -34,7 +34,13 @@ export default async function Page() {
               isFollowing: user.isFollowing,
             }}
           />
-        ))}
+        ))
+      ) : (
+        <div className="text-center py-28 space-y-8 text-muted-foreground">
+          <h2 className="text-3xl font-semibold">No Users to diplay</h2>
+          <p>Please follow someone.</p>
+        </div>
+      )}
     </section>
   );
 }
