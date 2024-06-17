@@ -37,7 +37,7 @@ export const authOptions: NextAuthOptions = {
         const [user] = await db
           .select()
           .from(users)
-          .where(eq(users.email, credentials?.email));
+          .where(eq(users.email, credentials?.email ?? ""));
 
         // console.log({ user, credentials });
 
@@ -48,7 +48,7 @@ export const authOptions: NextAuthOptions = {
 
         if (isEqual) {
           return {
-            id: user.id,
+            id: String(user.id),
             name: user.name,
             email: user.email,
           } satisfies User;
